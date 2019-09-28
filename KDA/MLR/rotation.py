@@ -28,11 +28,12 @@ c = 0
 pixel_offset = 1#offset_val % 7 + 1
 for i in range(rows):
     for j in range(cols):
-        p_str = str(secret[i][j])
+        p_str = bin(secret[i][j]).replace('0b', '')
+        p_str = '0'*(8-len(p_str)) + p_str
         lp = p_str[0:pixel_offset]
         rp = p_str[pixel_offset:]
         p_str = rp + lp
-        secret[i][j] = int(p_str)
+        secret[i][j] = int(p_str,2)
 
 
 # Step 2

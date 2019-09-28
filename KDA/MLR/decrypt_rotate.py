@@ -21,7 +21,7 @@ print(offset_val)
 layers = min(rows, cols) // 2
 c = 0
 
-# Step 2
+# Step 1
 #
 # rotating the layers of the matrix
 for i in range(layers):
@@ -68,19 +68,19 @@ for i in range(layers):
         c += 1
 
 
-# Step 1
+# Step 2
 #
 # rotating the pixels right
 # limiting offset by the length of representation of a single pixel
 pixel_offset = 1#offset_val % 7 + 1
 for i in range(rows):
     for j in range(cols):
-        p_str = str(recieved[i][j])
+        p_str = bin(recieved[i][j]).replace('0b', '')
+        p_str = '0'*(8-len(p_str)) + p_str
         lp = p_str[0:len(p_str)-pixel_offset]
         rp = p_str[len(p_str)-pixel_offset:]
         p_str = rp + lp
-        recieved[i][j] = int(p_str)
-
+        recieved[i][j] = int(p_str,2)
 
 cv2.imwrite('recovered_lena.pgm', recieved)
 original = cv2.imread('recovered_lena.pgm',0)

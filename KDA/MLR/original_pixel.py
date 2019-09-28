@@ -6,11 +6,12 @@ import random
 rec = cv2.imread('rotated_lena_pixel.pgm',0)
 r = rec.shape[0]
 c = rec.shape[1]
-offset_val = 3
+offset_val = 1
 
 for i in range(r):
     for j in range(c):
         p_str = bin(rec[i][j]).replace('0b', '')
+        p_str = '0'*(8-len(p_str)) + p_str
         lp = p_str[0:len(p_str)-offset_val]
         rp = p_str[len(p_str)-offset_val:]
         p_str = rp + lp
