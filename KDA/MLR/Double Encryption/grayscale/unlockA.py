@@ -1,14 +1,12 @@
-#!/usr/bin/python
 import cv2
-import numpy
 import random
 
-recieved = cv2.imread('rotated.pgm',0)
+recieved = cv2.imread('lockB_pixel.pgm',0)
 cv2.imshow('rec', recieved)
 rows = recieved.shape[0]
 cols = recieved.shape[1]
 
-f = open('secret_key.txt', 'r')
+f = open('lockA_secret.txt', 'r')
 
 mr = rows*cols - (rows-2)*(cols-2)
 layers = min(rows, cols) // 2
@@ -35,22 +33,15 @@ for i in range(layers):
     key, offset_val = f.readline().split()
     key = int(key)
     offset_val = int(offset_val)
-    pixel_offset = offset_val % 8 #1#offset_val % 7 + 1
     st = rows*cols - (rows-2)*(cols-2)
     if not key:
         for rj in range(st):
             # rotating the layer
             rotated[ri+(rj+offset_val)%st] = flat[ri+rj]
-            
-            # rotating the pixels
-            rotated[ri+(rj+offset_val)%st] = (rotated[ri+(rj+offset_val)%st] >> pixel_offset) | (rotated[ri+(rj+offset_val)%st] << (8-pixel_offset))
     else:
         for rj in range(st):
             # rotating the layer
             rotated[ri+rj] = flat[ri+(rj+offset_val)%st]
-            
-            # rotating the pixels
-            rotated[ri+rj] = (rotated[ri+rj] << pixel_offset) | (rotated[ri+rj] >> (8-pixel_offset))
     if not min(rows, cols):
         break
     ri += rows*cols - (rows-2)*(cols-2)
@@ -76,9 +67,9 @@ for i in range(layers):
 
 f.close()
 
-cv2.imwrite('original.pgm',recieved)
-enc = cv2.imread('original.pgm',0)
-cv2.imshow('orignal.pgm', enc)
+cv2.imwrite('unlockA_img.pgm',recieved)
+enc = cv2.imread('unlockA_img.pgm',0)
+cv2.imshow('unlockA.pgm', enc)
 
 cv2.waitKey(0)
 cv2.destroyAllWindows()

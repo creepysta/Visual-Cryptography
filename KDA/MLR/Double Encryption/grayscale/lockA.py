@@ -1,13 +1,11 @@
-#!/usr/bin/python
 import cv2
-import numpy
 import random
 
 secret = cv2.imread('lena_gray.bmp',0)
 rows = secret.shape[0]
 cols = secret.shape[1]
 
-f = open('secret_key.txt', 'w')
+f = open('lockA_secret.txt', 'w')
 
 mr = rows*cols - (rows-2)*(cols-2)
 layers = min(rows, cols) // 2
@@ -33,22 +31,15 @@ rotated = [0 for i in range(rows * cols)]
 while(True):
     key = random.randint(0,1)
     offset_val = random.randint(1, mr - 1)
-    pixel_offset = offset_val % 8 #1#offset_val % 7 + 1
     st = rows*cols - (rows-2)*(cols-2)
     if not key:
         for rj in range(st):
             # rotating the layer
             rotated[ri+rj] = flat[ri+(rj+offset_val)%st]
-            
-            # rotating the pixels
-            rotated[ri+rj] = (rotated[ri+rj] << pixel_offset) | (rotated[ri+rj] >> (8-pixel_offset))
     else:
         for rj in range(st):
             # rotating the layer
             rotated[ri+(rj+offset_val)%st] = flat[ri+rj]
-            
-            # rotating the pixels
-            rotated[ri+(rj+offset_val)%st] = (rotated[ri+(rj+offset_val)%st] >> pixel_offset) | (rotated[ri+(rj+offset_val)%st] << (8-pixel_offset))
     if not min(rows, cols):
         break
     ri += rows*cols - (rows-2)*(cols-2)
@@ -75,8 +66,8 @@ for i in range(layers):
 
 f.close()
 
-cv2.imwrite('rotated.pgm',secret)
-enc = cv2.imread('rotated.pgm',0)
+cv2.imwrite('lockA_rotate.pgm',secret)
+enc = cv2.imread('lockA_rotate.pgm',0)
 cv2.imshow('rot.pgm', enc)
 
 cv2.waitKey(0)
