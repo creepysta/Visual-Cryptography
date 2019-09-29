@@ -9,7 +9,6 @@ f = open('lockA_secret.txt', 'w')
 
 mr = rows*cols - (rows-2)*(cols-2)
 layers = min(rows, cols) // 2
-
 flat = [0 for i in range(rows*cols)]
 c = 0
 for i in range(layers):

@@ -7,6 +7,7 @@ rows = recieved.shape[0]
 cols = recieved.shape[1]
 
 f = open('lockB_secret.txt', 'r')
+randKey = int(f.readline())
 
 mr = rows*cols - (rows-2)*(cols-2)
 layers = min(rows, cols) // 2
@@ -34,14 +35,14 @@ for i in range(layers):
     offset_val = int(offset_val)
     pixel_offset = offset_val % 8  # 1#offset_val % 7 + 1
     st = rows*cols - (rows-2)*(cols-2)
-    if not key:
-        for rj in range(st):
+    for rj in range(st):
             # rotating the pixels
+        if not key:
+            flat[ri+(rj+offset_val) % st] ^= randKey
             flat[ri+(rj+offset_val) % st] = (flat[ri+(rj+offset_val) % st] >>
                                              pixel_offset) | (flat[ri+(rj+offset_val) % st] << (8-pixel_offset))
-    else:
-        for rj in range(st):
-            # rotating the pixels
+        else:
+            flat[ri+rj] ^= randKey
             flat[ri+rj] = (flat[ri+rj] <<
                            pixel_offset) | (flat[ri+rj] >> (8-pixel_offset))
     if not min(rows, cols):

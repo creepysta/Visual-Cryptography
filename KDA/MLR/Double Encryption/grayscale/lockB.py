@@ -4,8 +4,10 @@ import random
 secret = cv2.imread('lockA_rotate.pgm', 0)
 rows = secret.shape[0]
 cols = secret.shape[1]
+randKey = random.randint(100,250)
 
 f = open('lockB_secret.txt', 'w')
+f.write(str(randKey)+'\n')
 
 mr = rows*cols - (rows-2)*(cols-2)
 layers = min(rows, cols) // 2
@@ -32,16 +34,16 @@ while(True):
     offset_val = random.randint(1, mr - 1)
     pixel_offset = offset_val % 8  # 1#offset_val % 7 + 1
     st = rows*cols - (rows-2)*(cols-2)
-    if not key:
-        for rj in range(st):
-            # rotating the pixels
+    for rj in range(st):
+        # rotating the pixels
+        if not key:
             flat[ri+rj] = (flat[ri+rj] <<
-                              pixel_offset) | (flat[ri+rj] >> (8-pixel_offset))
-    else:
-        for rj in range(st):
-            # rotating the pixels
+                           pixel_offset) | (flat[ri+rj] >> (8-pixel_offset))
+            flat[ri+rj] ^= randKey
+        else:
             flat[ri+(rj+offset_val) % st] = (flat[ri+(rj+offset_val) % st] >>
-                                                pixel_offset) | (flat[ri+(rj+offset_val) % st] << (8-pixel_offset))
+                                             pixel_offset) | (flat[ri+(rj+offset_val) % st] << (8-pixel_offset))
+            flat[ri+(rj+offset_val) % st] ^= randKey
     if not min(rows, cols):
         break
     ri += rows*cols - (rows-2)*(cols-2)
