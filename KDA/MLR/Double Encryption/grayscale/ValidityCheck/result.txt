@@ -1,0 +1,14 @@
+abe_natsumi.pgm	76.35023187193111
+anonymous1.pgm	77.7373838608558
+aya_matsuura.pgm	71.00643591213955
+azumi_kawashima2.pgm	67.26877646547884
+brian_kernighan.pgm	76.45032978147816
+hara_fumina.pgm	75.99162990634848
+lena_gray.bmp	76.75317782052285
+lockA_rotate.pgm	28.08631948108472
+lockB_pixel.pgm	27.931096885285868
+megumi_oishi.pgm	66.8298522300482
+reese_witherspoon.pgm	70.99680987609148
+restored.pgm	100
+rie_hasegawa.pgm	72.57569380026695
+unlockA_img.pgm	27.807197134151487
